@@ -1,0 +1,28 @@
+###
+POST http://localhost:3333/api/v1/users
+Content-Type: application/json
+
+{
+	"fristName": "mahdi",
+	"lastName": "tajik",
+	"email": "mahdi@gmail.com",
+	"password": "mahdi12345",
+	"role": "admin"
+}
+
+###
+GET http://localhost:3333/api/v1/users
+
+###
+GET http://localhost:3333/api/v1/users/6
+
+###
+PATCH  http://localhost:3333/api/v1/users/8
+Content-Type: application/json
+
+{
+	"first_name": "mmad"
+}
+
+###
+DELETE  http://localhost:3333/api/v1/users/11
