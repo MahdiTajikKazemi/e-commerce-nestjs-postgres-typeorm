@@ -1,99 +1,143 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# CRUD API With NestJS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Backend API for E-commerce Application
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This is a simple **Backend Service API** for a **A crud application** with various endpoints built using **Nest.js**, **PostgreSQL** & **TypeORM**.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
 
-## Project setup
+- Built with **Nest.js**.
+- **PostgreSQL** and **TypeORM** for database management.
+- Implements **JWT Authentication** + **Role-based Authorization** using **Passport.js**
+- RESTful APIs for user management:
+  - Create, Read, Update, and Delete (CRUD) operations.
+- RESTful APIs for product management:
+  - Create, Read, Update, and Delete (CRUD) operations.
 
-```bash
-$ npm install
-```
+And many more services ...
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## Technologies Used
 
-# watch mode
-$ npm run start:dev
+- **Nest.js**
+- **Postgres** with **TypeORM**
+- **JWT + Refresh Token** & **Passport.js** for authentication + authorization
+- **Bcrypt** for password hashing
 
-# production mode
-$ npm run start:prod
-```
+---
 
-## Run tests
+## Installation and Setup
+
+### Prerequisites
+
+- Node.js and npm installed on your system.
+- Postgres connection (local or cloud).
+
+### 1. Clone the Repository
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/MahdiTajikKazemi/role-based-jwt-auth-with-express-mongodb
 ```
 
-## Deployment
+### 2. Setup Backend
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Create a `.env` file in the `backend` directory and configure it:
+   ```env
+   Set your environment variables in .env.sample file.
+   ```
+3. Start the server:
+   ```bash
+   npm run start:dev
+   ```
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 3. Setup app using Docker
 
-```bash
-$ npm install -g mau
-$ mau deploy
+1. Install & Run docker + docker engine on your machine:
+
+   ```bash
+   https://docs.docker.com/engine/install/
+   ```
+
+2. navigate to your project directory + run the below command:
+   ```bash
+   docker compose up
+   ```
+
+## Usage
+
+1. Start the backend server.
+2. Open your 'Postman' | 'insomnia' or whatever testing api app you are comfortable using and then begin hitting enpoints listed below.
+
+---
+
+## API Endpoints
+
+### Authentication
+
+- `POST /api/v1/auth/signup`: Register a new user and get an access + refresh JWT token. (all)
+- `POST /api/v1/auth/login`: Login and get a JWT tokens as cookies. (all)
+- `POST /api/v1/auth/refresh`: Supply a valid refresh token in body to get a new access token. (users only)
+- `PUT /api/v1/auth/logout`: Logout (set refresh token in DB to null). (users only)
+
+### User Management
+
+- `GET /api/v1/users/`: Get a list of all users (admin only).
+- `POST /api/v1/users/`: Create a user (admin only).
+- `PUT /api/v1/users/:id`: Update a specific user (admin only).
+- `DELETE /api/v1/users/:id`: Remove a specific user (admin only).
+- `GET /api/v1/users/:id`: Get a specific user (admin only).
+
+### Product Management
+
+- `GET /api/v1/products/`: Get a list of all products (users only).
+- `POST /api/v1/products/`: Create a user (admin only).
+- `PUT /api/v1/products/:id`: Update a specific user (admin only).
+- `DELETE /api/v1/products/:id`: Remove a specific user (admin only).
+- `GET /api/v1/products/:id`: Get a specific user (users only).
+
+---
+
+## Folder Structure
+
+```
+└── 📁express-auth
+    └── 📁middlewares
+        └── auth.js
+        └── isAdmin.js
+    └── 📁models
+        └── auth.js
+        └── product.js
+        └── refresh.js
+        └── user.js
+    └── 📁routes
+        └── auth.js
+        └── products.js
+        └── users.js
+    └── .env
+    └── .env.sample
+    └── .gitignore
+    └── db.js
+    └── index.js
+    └── package-lock.json
+    └── package.json
+    └── README.md
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Future Enhancements
 
-## Resources
+- Turn this app into a detailed E-commerce application
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License.
+
+Mahdi Tajik Kazemi

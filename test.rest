@@ -14,7 +14,7 @@ Content-Type: application/json
 GET http://localhost:3333/api/v1/users
 
 ###
-GET http://localhost:3333/api/v1/users/6
+GET http://localhost:3333/api/v1/users/25
 
 ###
 PATCH  http://localhost:3333/api/v1/users/8
@@ -26,3 +26,32 @@ Content-Type: application/json
 
 ###
 DELETE  http://localhost:3333/api/v1/users/11
+
+
+
+###
+POST http://localhost:3333/api/v1/products
+Content-Type: application/json
+
+{
+	"name": "tooth brush 1",
+	"quantity_in_stock": 10,
+	"unit_price": 15.5
+}
+
+###
+GET http://localhost:3333/api/v1/products
+
+###
+GET http://localhost:3333/api/v1/products/1
+
+###
+PATCH  http://localhost:3333/api/v1/products/22
+Content-Type: application/json
+
+{
+	"name": "tooth paste 5.0"
+}
+
+###
+DELETE  http://localhost:3333/api/v1/products/2
