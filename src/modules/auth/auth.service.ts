@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { TokensPayload } from './interfaces/tokens-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -28,8 +29,15 @@ export class AuthService {
     return { ...newUser, tokens };
   }
 
-  async login(authDto: AuthDto) {
-    return `This action returns all auth`;
+  login(user: User) {
+    const payload: TokensPayload = {
+      sub: user.user_id,
+      role: user.role,
+    };
+
+    const tokens = this.generateTokens(payload);
+
+    return { ...user, tokens };
   }
 
   async getAccessToken(refreshToken: string): Promise<string> {
@@ -45,6 +53,8 @@ export class AuthService {
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword)
         throw new UnauthorizedException('Invalid Credentials');
+
+      return user;
     } catch (error) {
       throw new UnauthorizedException('Invalid Credentials');
     }

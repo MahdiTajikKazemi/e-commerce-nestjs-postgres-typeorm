@@ -1,7 +1,17 @@
-import { Controller, Post, Body, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
 import { CreateUserDto } from '../users/dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { User } from '../users/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -13,8 +23,9 @@ export class AuthController {
   }
 
   @Post('login')
-  login(@Body() authDto: AuthDto) {
-    return this.authService.login(authDto);
+  @UseGuards(LocalAuthGuard)
+  login(@CurrentUser() user: User) {
+    return this.authService.login(user);
   }
 
   @Post('token')
