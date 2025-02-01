@@ -13,6 +13,7 @@ import { CreateUserDto } from '../users/dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -30,11 +31,13 @@ export class AuthController {
     return this.authService.login(user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('token')
   getAccessToken(@Body() refreshToken: string) {
     return this.authService.getAccessToken(refreshToken);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('logout/:id')
   logout(@Param('id', ParseIntPipe) id: number) {
     return this.authService.logout(id);

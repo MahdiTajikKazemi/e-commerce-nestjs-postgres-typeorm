@@ -47,23 +47,28 @@ export class UsersService {
     id: number,
     updateUserDto: UpdateUserDto,
   ): Promise<Partial<User>> {
-    let user = await this.findOne(id);
-    if (!user) throw new NotFoundException('User with the given ID not found.');
+    await this.findOne(id);
 
     if (updateUserDto.password)
       updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
 
     await this.userRepository.update({ user_id: id }, { ...updateUserDto });
-    const { password, ...updatedUser } = await this.findOne(id);
 
+    const { password, ...updatedUser } = await this.findOne(id);
     return updatedUser;
   }
 
   async remove(id: number): Promise<User> {
     const user = this.findOne(id);
-    if (!user) throw new NotFoundException('User with the given ID not found.');
 
     await this.userRepository.delete({ user_id: id });
+
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user) throw new NotFoundException('User not found.');
 
     return user;
   }
