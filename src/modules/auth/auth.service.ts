@@ -37,7 +37,8 @@ export class AuthService {
 
     const tokens = this.generateTokens(payload);
 
-    return { ...user, tokens };
+    const { password, ...rest } = user;
+    return { rest, tokens };
   }
 
   async getAccessToken(refreshToken: string): Promise<string> {
@@ -61,16 +62,16 @@ export class AuthService {
   }
 
   private generateTokens(payload: TokensPayload) {
-    const accessToken = this.jwtService.sign(payload, {
+    const access_token = this.jwtService.sign(payload, {
       secret: this.configService.getOrThrow('SECRET_KEY'),
       expiresIn: '15m',
     });
 
-    const refreshToken = this.jwtService.sign(payload, {
+    const refresh_token = this.jwtService.sign(payload, {
       secret: this.configService.getOrThrow('REFRESH_KEY'),
       expiresIn: '7d',
     });
 
-    return { accessToken, refreshToken };
+    return { access_token, refresh_token };
   }
 }

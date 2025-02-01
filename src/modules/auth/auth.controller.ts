@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
@@ -22,6 +23,7 @@ export class AuthController {
     return this.authService.create(createUserDto);
   }
 
+  @HttpCode(200)
   @Post('login')
   @UseGuards(LocalAuthGuard)
   login(@CurrentUser() user: User) {
