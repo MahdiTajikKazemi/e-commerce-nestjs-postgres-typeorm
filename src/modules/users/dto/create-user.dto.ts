@@ -41,4 +41,8 @@ export class CreateUserDto {
   @IsEnum(['normal', 'admin', 'gold'])
   @IsOptional()
   role?: 'normal' | 'admin' | 'gold';
+
+  @IsString()
+  @IsOptional()
+  hashed_refresh?: string;
 }

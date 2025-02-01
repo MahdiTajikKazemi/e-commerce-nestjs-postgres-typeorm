@@ -34,7 +34,3 @@ export class Product extends BaseEntity {
   @UpdateDateColumn()
   updated_at: Date;
 }
-
-// function () {
-//   return this.quantity_in_stock > 0 ? 'available' : 'unavailable';
-// }

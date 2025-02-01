@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthDto } from './dto';
+import {} from './dto';
 import { CreateUserDto } from '../users/dto';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
@@ -26,10 +26,18 @@ export class AuthService {
 
     const tokens = this.generateTokens(payload);
 
-    return { ...newUser, tokens };
+    const hashedRefresh = await bcrypt.hash(tokens.refresh_token, 10);
+    await this.usersService.update(newUser.user_id, {
+      hashed_refresh: hashedRefresh,
+    });
+
+    const { password, ...user } = await this.usersService.findOne(
+      newUser.user_id,
+    );
+    return { user, tokens };
   }
 
-  login(user: User) {
+  async login(user: User) {
     const payload: TokensPayload = {
       sub: user.user_id,
       role: user.role,
@@ -37,15 +45,41 @@ export class AuthService {
 
     const tokens = this.generateTokens(payload);
 
-    const { password, ...rest } = user;
+    const hashedRefresh = await bcrypt.hash(tokens.refresh_token, 10);
+    await this.usersService.update(user.user_id, {
+      hashed_refresh: hashedRefresh,
+    });
+
+    const { password, ...rest } = await this.usersService.findOne(user.user_id);
     return { rest, tokens };
   }
 
-  async getAccessToken(refreshToken: string): Promise<string> {
-    return `This action returns a #${refreshToken} auth`;
+  async getAccessToken(user: User) {
+    const payload: TokensPayload = {
+      sub: user.user_id,
+      role: user.role,
+    };
+
+    const tokens = this.generateTokens(payload);
+
+    const hashedRefresh = await bcrypt.hash(tokens.refresh_token, 10);
+    await this.usersService.update(user.user_id, {
+      hashed_refresh: hashedRefresh,
+    });
+
+    return tokens;
   }
 
-  async logout(id: number): Promise<void> {}
+  async logout(payload: TokensPayload): Promise<{ success: string }> {
+    const foundUser = await this.usersService.findOne(payload.sub);
+
+    if (foundUser.hashed_refresh !== null) {
+      await this.usersService.update(payload.sub, {
+        hashed_refresh: null,
+      });
+    }
+    return { success: 'User logged out.' };
+  }
 
   async verifyUser(email: string, password: string) {
     try {
@@ -73,5 +107,18 @@ export class AuthService {
     });
 
     return { access_token, refresh_token };
+  }
+
+  async veifyUserRefreshToken(refreshToken: string, userId: number) {
+    try {
+      const user = await this.usersService.findOne(userId);
+
+      const isMatch = await bcrypt.compare(refreshToken, user.hashed_refresh);
+      if (!isMatch) throw new UnauthorizedException();
+
+      return user;
+    } catch (error) {
+      throw new UnauthorizedException('Refresh token is not valid.');
+    }
   }
 }

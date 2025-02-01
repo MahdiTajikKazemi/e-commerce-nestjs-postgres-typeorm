@@ -37,6 +37,9 @@ export class User extends BaseEntity {
   })
   role: 'normal' | 'admin' | 'gold';
 
+  @Column({ nullable: true })
+  hashed_refresh: string;
+
   @CreateDateColumn()
   created_at: Date;
 

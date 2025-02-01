@@ -1,19 +1,12 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Param,
-  ParseIntPipe,
-  UseGuards,
-  HttpCode,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto } from './dto';
 import { CreateUserDto } from '../users/dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guad';
+import { TokensPayload } from './interfaces/tokens-payload.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -31,15 +24,16 @@ export class AuthController {
     return this.authService.login(user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtRefreshAuthGuard)
   @Post('token')
-  getAccessToken(@Body() refreshToken: string) {
-    return this.authService.getAccessToken(refreshToken);
+  getAccessToken(@CurrentUser() user: User) {
+    return this.authService.getAccessToken(user);
   }
 
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard)
-  @Post('logout/:id')
-  logout(@Param('id', ParseIntPipe) id: number) {
-    return this.authService.logout(id);
+  @Post('logout')
+  logout(@CurrentUser() user: TokensPayload) {
+    return this.authService.logout(user);
   }
 }
