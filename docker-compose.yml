@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  api:
+    depends_on:
+      - db
+    build: ./
+    ports:
+      - 3333:3333
+    env_file:
+      - docker.env
+  db:
+    image: postgres:13
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: nest_project

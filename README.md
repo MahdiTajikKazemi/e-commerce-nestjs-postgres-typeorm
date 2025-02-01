@@ -1,4 +1,4 @@
-# CRUD API With NestJS
+# CRUD API With NestJS | (In-progress | Planning to turn this into a ecommerce backend service)
 
 # Backend API for E-commerce Application
 
