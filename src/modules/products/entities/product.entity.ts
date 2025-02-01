@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'products' })
-export class User extends BaseEntity {
+export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
   product_id: number;
 
@@ -24,9 +24,7 @@ export class User extends BaseEntity {
   @Column({
     type: 'enum',
     enum: ['available', 'unavailable'],
-    default: function () {
-      return this.quantity_in_stock > 0 ? 'available' : 'unavailable';
-    },
+    default: 'available',
   })
   status: 'available' | 'unavailable';
 
@@ -36,3 +34,7 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updated_at: Date;
 }
+
+// function () {
+//   return this.quantity_in_stock > 0 ? 'available' : 'unavailable';
+// }
