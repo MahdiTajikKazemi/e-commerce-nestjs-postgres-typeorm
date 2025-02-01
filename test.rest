@@ -3,8 +3,8 @@ POST http://localhost:3333/api/v1/users
 Content-Type: application/json
 
 {
-	"fristName": "mahdi",
-	"lastName": "tajik",
+	"first_name": "mahdi",
+	"last_name": "tajik",
 	"email": "mahdi@gmail.com",
 	"password": "mahdi12345",
 	"role": "admin"
@@ -34,7 +34,7 @@ POST http://localhost:3333/api/v1/products
 Content-Type: application/json
 
 {
-	"name": "tooth brush 1",
+	"name": "tooth brush",
 	"quantity_in_stock": 10,
 	"unit_price": 15.5
 }
@@ -50,8 +50,38 @@ PATCH  http://localhost:3333/api/v1/products/22
 Content-Type: application/json
 
 {
-	"name": "tooth paste 5.0"
+	"name": "tooth paste"
 }
 
 ###
 DELETE  http://localhost:3333/api/v1/products/2
+
+###
+POST http://localhost:3333/api/v1/auth/signup
+Content-Type: application/json
+
+{
+	"first_name": "mahdi",
+	"last_name": "tajik",
+	"email": "mahdi@gmail.com",
+	"password": "mahdi12345",
+	"role": "admin"
+}
+
+
+###
+POST http://localhost:3333/api/v1/auth/login
+Content-Type: application/json
+
+{
+	"email": "mahdi@gmail.com",
+	"password": "mahdi12345"
+}
+
+###
+POST http://localhost:3333/api/v1/auth/token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczODQxODg5NywiZXhwIjoxNzM5MDIzNjk3fQ.ppYBwud5r-O5YvuBzfx1RUl7aKuxvXj6WrXXTip851Q
+
+###
+POST http://localhost:3333/api/v1/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInJvbGUiOiJhZG1pbiIsImlhdCI6MTczODQxOTExNSwiZXhwIjoxNzM4NDIwMDE1fQ.DmTSSHmP6hc6bkp06_RGjduS9K_2yVRt5uNqyYq95Mw
